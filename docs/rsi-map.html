@@ -1,0 +1,434 @@
+<title>RSI Yourself</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&family=Noto+Sans+SC:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column in two parts; part 1 (agent) is cobalt, part 2 (人) is ochre, and the same five numbered blocks line up across both */
+:root {
+  --bg: #F3F5F7;
+  --surface: #FFFFFF;
+  --ink: #17202A;
+  --muted: #5B6672;
+  --line: #D8DEE4;
+  --agent: #2B54C6;
+  --human: #9A5C17;
+  --acc: var(--agent);
+  --f-display: "Noto Serif SC", "Songti SC", "STSong", serif;
+  --f-body: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #10151B; --surface: #18202A; --ink: #E3E8ED; --muted: #97A2AE; --line: #2A3441;
+    --agent: #85A2F4; --human: #E2A65C; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #10151B; --surface: #18202A; --ink: #E3E8ED; --muted: #97A2AE; --line: #2A3441;
+  --agent: #85A2F4; --human: #E2A65C; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--f-body); font-size: 15px; line-height: 1.75;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 64px;
+}
+.wrap { max-width: 920px; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-height: 1.3; }
+h1 { font-size: clamp(28px, 5vw, 40px); font-weight: 700; }
+h2 { font-size: 24px; font-weight: 700; }
+h3 { font-size: 18px; font-weight: 600; }
+p { margin: 0; }
+.eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.muted { color: var(--muted); }
+code { font-family: var(--f-mono); font-size: .88em; background: color-mix(in srgb, var(--acc) 10%, var(--surface)); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+
+header.hero { padding-block: 48px 8px; display: grid; gap: 16px; }
+.lede { max-width: 62ch; font-size: 16px; color: var(--muted); }
+.oneline { font-family: var(--f-display); font-size: 19px; font-weight: 600; max-width: 40ch; padding-left: 16px; border-left: 3px solid var(--ink); }
+
+section { padding-block: 48px 0; display: grid; gap: 18px; }
+.part-agent { --acc: var(--agent); }
+.part-human { --acc: var(--human); }
+.part-head { display: grid; gap: 8px; max-width: 68ch; }
+.part-head .eyebrow { color: var(--acc); }
+.tag { display: inline-block; font: 500 11px var(--f-mono); letter-spacing: .06em; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--acc); color: var(--acc); vertical-align: 4px; margin-left: 8px; }
+
+/* five blocks */
+.blocks { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.block { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 20px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px; }
+.block .side { display: grid; gap: 4px; align-content: start; }
+.block .no { font: 500 13px var(--f-mono); color: var(--acc); }
+.block .q { font-size: 13px; color: var(--muted); }
+.block .body { display: grid; gap: 10px; min-width: 0; }
+.block .key { font-size: 14px; padding: 10px 12px; border-radius: 6px; background: color-mix(in srgb, var(--acc) 9%, var(--surface)); }
+.block .key b { color: var(--acc); }
+.block .term { font: 400 12px var(--f-mono); color: var(--muted); }
+.three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.three div { border-top: 2px solid var(--acc); padding-top: 8px; display: grid; gap: 2px; align-content: start; }
+.three b { font-weight: 700; }
+.three span { font-size: 14px; color: var(--muted); }
+.flow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.flow li { font-size: 14px; padding: 3px 10px; border: 1px solid var(--line); border-radius: 999px; }
+.flow li.judge { border-color: var(--acc); color: var(--acc); font-weight: 500; }
+.flow li.arrow { border: 0; padding: 0; color: var(--muted); }
+
+/* mapping table */
+.tbl { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 14px; }
+th, td { text-align: left; vertical-align: top; padding: 11px 14px; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+th { font: 500 11.5px var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+th.c-a { color: var(--agent); } th.c-h { color: var(--human); }
+td:first-child { font-weight: 700; white-space: nowrap; }
+
+/* lessons */
+.finds { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.find { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: grid; gap: 8px; align-content: start; }
+.find h3 { font-size: 16px; }
+.find p { font-size: 14px; }
+.find .num { font: 500 13px var(--f-mono); color: var(--agent); font-variant-numeric: tabular-nums; }
+.find .to { font-size: 14px; border-top: 1px solid var(--line); padding-top: 8px; }
+.find .to b { color: var(--human); }
+
+.principles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 28px; margin: 0; padding: 0; list-style: none; }
+.principles li { padding-block: 10px; border-top: 1px solid var(--line); display: grid; gap: 2px; }
+.principles b { font-weight: 700; }
+.principles span { font-size: 14px; color: var(--muted); }
+
+.todo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.todo div { border: 1px solid var(--human); border-radius: 10px; padding: 16px; display: grid; gap: 4px; }
+.todo b { font-weight: 700; }
+.todo span { font-size: 14px; color: var(--muted); }
+
+footer { padding-block: 48px 0; font-size: 13px; color: var(--muted); display: grid; gap: 8px; }
+footer ul { margin: 0; padding-left: 18px; display: grid; gap: 2px; }
+
+@media (max-width: 720px) {
+  .block { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .three, .finds, .principles, .todo { grid-template-columns: minmax(0, 1fr); }
+}
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <span class="eyebrow">rsi-yourself · 方法梳理 · 2026-10-30</span>
+    <h1>把 agent 的自我改进方法，用到人身上</h1>
+    <p class="oneline">RSI：让一个系统自己找问题、自己改、自己验证，并且连“怎么改”也一起改进。</p>
+    <p class="lede">RSI 是 Recursive Self-Improvement 的缩写，中文叫递归自我改进。下面先拆开 agent 的 RSI 有哪五块，再看人的 RSI 怎样一一对应。</p>
+  </header>
+
+  <!-- PART 1 -->
+  <section class="part-agent" id="agent">
+    <div class="part-head">
+      <span class="eyebrow">第一部分</span>
+      <h2>Agent 的 RSI 由五块组成 <span class="tag">来自论文</span></h2>
+    </div>
+    <ol class="blocks">
+      <li class="block">
+        <div class="side"><span class="no">01</span><h3>改什么</h3><span class="q">可以被修改的东西</span></div>
+        <div class="body">
+          <p>一个 agent 表现好不好，由三样东西决定。RSI 改的就是这三样。</p>
+          <div class="three">
+            <div><b>经验数据</b><span>它做过的任务留下的记录，可以整理成学习材料。</span></div>
+            <div><b>外部配置</b><span>模型之外的说明书和工具箱：提示词、记忆、工具、技能。改起来快，但每次运行都要占用上下文。</span></div>
+            <div><b>模型本身</b><span>模型通过训练学会的能力。改起来慢、成本高，学会以后不再额外占用。</span></div>
+          </div>
+          <span class="term">论文术语：Data / Harness / Model</span>
+        </div>
+      </li>
+      <li class="block">
+        <div class="side"><span class="no">02</span><h3>怎么改</h3><span class="q">一轮改进循环</span></div>
+        <div class="body">
+          <p>每一轮都按固定步骤走：</p>
+          <ol class="flow">
+            <li>做任务</li><li class="arrow">→</li>
+            <li>看记录找问题</li><li class="arrow">→</li>
+            <li>提出一个修改</li><li class="arrow">→</li>
+            <li class="judge">检查是否合规</li><li class="arrow">→</li>
+            <li>用新版本再做</li><li class="arrow">→</li>
+            <li class="judge">和原来比较</li><li class="arrow">→</li>
+            <li>更好就保留</li>
+          </ol>
+          <p class="key"><b>关键：</b>提出修改的是模型，判断好坏的是固定的程序。提出修改的一方不能给自己打分。</p>
+          <span class="term">论文术语：loop kernel</span>
+        </div>
+      </li>
+      <li class="block">
+        <div class="side"><span class="no">03</span><h3>怎么判断变好</h3><span class="q">独立的评价标准</span></div>
+        <div class="body">
+          <p>一套事先定好的测试和打分规则。另外留一批改进过程中从没用过的题，用来检验改进是否真的通用，而不只是记住了练习题。</p>
+          <p class="key"><b>关键：</b>这套标准放在改进过程够不着的地方，任何一轮改进都不能修改它。</p>
+          <span class="term">论文术语：sealed evaluator / held-out set</span>
+        </div>
+      </li>
+      <li class="block">
+        <div class="side"><span class="no">04</span><h3>先改哪个</h3><span class="q">每一轮的选择</span></div>
+        <div class="body">
+          <p>每一轮决定改哪一样：整理数据、改配置，还是训练模型。</p>
+          <p class="key"><b>规则：</b>改了配置或模型之后，系统已经变了，之前的记录要重新收集。模型学会某个行为后，删掉配置里对应的提示，避免越堆越多。</p>
+          <span class="term">论文术语：scheduler / 组合规则</span>
+        </div>
+      </li>
+      <li class="block">
+        <div class="side"><span class="no">05</span><h3>改进“改进方法”</h3><span class="q">元改进</span></div>
+        <div class="body">
+          <p>定期回头检查“找问题、提修改的方法”本身好不好，再改进它。“递归”两个字就来自这一块。</p>
+          <p class="key"><b>关键：</b>递归要有终点。最外层的规则固定不变，否则就没法验证。</p>
+          <span class="term">论文术语：Meta 层</span>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- PART 2 -->
+  <section class="part-human" id="human">
+    <div class="part-head">
+      <span class="eyebrow">第二部分</span>
+      <h2>人的 RSI 对应的五块 <span class="tag">推论，待验证</span></h2>
+      <p class="muted">把同样的结构套到人身上，编号和第一部分一一对应。</p>
+    </div>
+    <ol class="blocks">
+      <li class="block">
+        <div class="side"><span class="no">01</span><h3>改什么</h3><span class="q">决定你表现的三样东西</span></div>
+        <div class="body">
+          <div class="three">
+            <div><b>经历记录</b><span>日志、时间记录、复盘、别人的反馈。对应经验数据。</span></div>
+            <div><b>外部结构</b><span>规则清单、日历安排、工具、物理环境、AI 助手。改起来快，但每次都要花注意力去遵守。对应外部配置。</span></div>
+            <div><b>内化能力</b><span>习惯、技能熟练度、直觉判断。养成慢，养成后不再费力。对应模型本身。</span></div>
+          </div>
+        </div>
+      </li>
+      <li class="block">
+        <div class="side"><span class="no">02</span><h3>怎么改</h3><span class="q">一个个小实验</span></div>
+        <div class="body">
+          <ol class="flow">
+            <li>记录</li><li class="arrow">→</li>
+            <li>从记录里找问题</li><li class="arrow">→</li>
+            <li>设计一个小实验</li><li class="arrow">→</li>
+            <li class="judge">检查风险和能否撤销</li><li class="arrow">→</li>
+            <li>执行一到两周</li><li class="arrow">→</li>
+            <li class="judge">按事先的标准比较</li><li class="arrow">→</li>
+            <li>有效就保留</li>
+          </ol>
+          <p>小实验要写清三件事：改什么、做多久、怎么算成功。执行时同时记录有没有真的做，否则分不清是方法没用，还是没做到。</p>
+          <p class="key"><b>关键：</b>想法可以靠直觉，判断好坏必须靠事先写下的标准和记录。</p>
+        </div>
+      </li>
+      <li class="block">
+        <div class="side"><span class="no">03</span><h3>怎么判断变好</h3><span class="q">事先写下的标准</span></div>
+        <div class="body">
+          <p>每个实验开始前写下指标和成功标准，过程中不改。判断时对照原始记录，请 AI 或别人来判。还要在真实场景里检验，不能只在专门练习的时候有效。</p>
+          <p class="key"><b>关键：</b>人最容易在这里作弊：结果不好就换指标、找理由。所以标准要先写下，并且由别人来判。</p>
+        </div>
+      </li>
+      <li class="block">
+        <div class="side"><span class="no">04</span><h3>先改哪个</h3><span class="q">每一轮的选择</span></div>
+        <div class="body">
+          <p>这一轮先多记录、先改环境，还是先刻意练习。</p>
+          <p class="key"><b>规则：</b>改了环境之后，旧的记录不再代表现在的你，要先重新记录一段。习惯养成后，删掉对应的提醒和规则。</p>
+        </div>
+      </li>
+      <li class="block">
+        <div class="side"><span class="no">05</span><h3>改进“改进方法”</h3><span class="q">定期复盘方法本身</span></div>
+        <div class="body">
+          <p>每个季度回头看：实验选得好不好、指标准不准、复盘方式有没有用，然后调整。也在这时重新审视目标。</p>
+          <p class="key"><b>固定不变的部分：</b>价值观、底线，以及“修改评价标准要走单独流程”这条规则。</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section id="map">
+    <div class="part-head">
+      <span class="eyebrow">对照</span>
+      <h2>五块一览</h2>
+    </div>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>块</th><th class="c-a">Agent</th><th class="c-h">人</th></tr></thead>
+        <tbody>
+          <tr><td>01 改什么</td><td>经验数据、外部配置、模型本身</td><td>经历记录、外部结构、内化能力</td></tr>
+          <tr><td>02 怎么改</td><td>模型提出修改，程序检验后保留</td><td>直觉提出实验，按记录检验后保留</td></tr>
+          <tr><td>03 怎么判断</td><td>固定的测试题，外加没用过的题</td><td>事先写下的标准，外加真实场景检验</td></tr>
+          <tr><td>04 先改哪个</td><td>数据、配置、模型三选一；改后重新收集</td><td>记录、环境、练习三选一；改后重新记录</td></tr>
+          <tr><td>05 改进方法本身</td><td>Meta 层调整调度方式</td><td>季度复盘调整实验方法和目标</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="part-human" id="data">
+    <div class="part-head">
+      <span class="eyebrow">第三部分</span>
+      <h2>人的数据从哪里来 <span class="tag">通用方法</span></h2>
+      <p class="muted">人不可能每天把所有事情写下来。基本思路是工具自动采集为主，人只补工具采不到的部分。具体用什么设备和软件因人而异，写在个人配置里。</p>
+    </div>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>数据类别</th><th>回答什么问题</th><th>常见来源</th><th>能否自动采集</th></tr></thead>
+        <tbody>
+          <tr><td>时间与行为</td><td>时间花在哪，做了什么</td><td>日历、屏幕使用时间、工作软件历史</td><td>能</td></tr>
+          <tr><td>身体状态</td><td>睡眠、恢复、活动量</td><td>智能手表或手环、体重秤</td><td>能</td></tr>
+          <tr><td>交流与环境</td><td>和谁交流、交流了什么</td><td>录音转写、会议纪要、消息记录</td><td>能</td></tr>
+          <tr><td>产出与结果</td><td>做成了什么</td><td>任务完成、交付物、业务或交易结果</td><td>大部分能</td></tr>
+          <tr><td>主观状态</td><td>精力、情绪、满意度</td><td>定时打分、随机时刻提问</td><td>只能本人提供</td></tr>
+          <tr><td>执行记录</td><td>实验有没有执行</td><td>优先从上面几类自动推断，不行再打卡</td><td>部分能</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ol class="blocks">
+      <li class="block">
+        <div class="side"><span class="no">采集方式</span><h3>分四级，从上往下优先</h3><span class="q">能用上一级解决的，不用下一级</span></div>
+        <div class="body">
+          <div class="three" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+            <div><b>L1 被动自动</b><span>设备和软件自动记录。只需一次性设置。例：手表记录睡眠、日历。</span></div>
+            <div><b>L2 AI 起草，人确认</b><span>AI 汇总自动数据写成日报，人只改错。每天约 1 分钟。</span></div>
+            <div><b>L3 轻量主动</b><span>打分、打卡、一句话。每次几秒。例：精力 1–5 分。</span></div>
+            <div><b>L4 主动书写</b><span>写日志、写复盘。只用于每周复盘。</span></div>
+          </div>
+          <p class="key"><b>设计实验时：</b>优先选能自动测量的指标。例如“11 点前睡觉”交给手表记录，有没有做到也能自动判断。</p>
+        </div>
+      </li>
+      <li class="block">
+        <div class="side"><span class="no">数据流程</span><h3>原始数据和摘要分开</h3><span class="q">对应“评价标准不可修改”</span></div>
+        <div class="body">
+          <ol class="flow">
+            <li>自动采集</li><li class="arrow">→</li>
+            <li class="judge">原始数据（只读）</li><li class="arrow">→</li>
+            <li>统一格式</li><li class="arrow">→</li>
+            <li>AI 汇总</li><li class="arrow">→</li>
+            <li>本人确认和打分</li>
+          </ol>
+          <p>AI 摘要可能出错，例如录音转写会有错字。判断实验效果时，必须能回到原始数据。</p>
+        </div>
+      </li>
+      <li class="block">
+        <div class="side"><span class="no">接入顺序</span><h3>先基线，再按需增加</h3><span class="q">不先全量囤数据</span></div>
+        <div class="body">
+          <p>前 2–4 周只接自动来源，加每天一次打分，不做任何改变，用来了解平时的波动。之后每个实验只为它增加需要的数据。每个数据源都要说得出它回答哪个问题。</p>
+          <p class="key"><b>隐私：</b>原始数据只存本地；推送和分享只用摘要；涉及他人的录音和消息，事先写明保留什么、丢弃什么。</p>
+        </div>
+      </li>
+    </ol>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>配置</th><th>数据源</th><th>适合谁</th></tr></thead>
+        <tbody>
+          <tr><td>最低</td><td>手机日历 + 手机屏幕使用时间 + 每天一次打分</td><td>没有可穿戴设备，不想装软件</td></tr>
+          <tr><td>常规</td><td>最低配置 + 智能手表 + 工作软件历史</td><td>大多数知识工作者</td></tr>
+          <tr><td>完整</td><td>常规配置 + 电脑使用记录 + 录音转写 + 业务结果数据</td><td>愿意投入搭建，隐私规则明确</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="lessons">
+    <div class="part-head">
+      <span class="eyebrow">论文里的经验</span>
+      <h2>六条有实验支撑的结论</h2>
+      <p class="muted">蓝色数字来自论文；“对人”一行是推论。</p>
+    </div>
+    <div class="finds">
+      <article class="find">
+        <h3>只能放大，不能凭空产生能力</h3>
+        <p>三篇论文结论一致：自我改进的增益都来自已有能力或外部输入。</p>
+        <p class="to"><b>对人：</b>新能力要从书、课程、导师、AI 学来，实验负责筛选和放大。</p>
+      </article>
+      <article class="find">
+        <span class="num">69%</span>
+        <h3>能测量的领域才容易形成闭环</h3>
+        <p>调研的 45 个系统中，69% 依赖能被机器自动判对错的目标。</p>
+        <p class="to"><b>对人：</b>第一个实验选结果容易测量的领域。</p>
+      </article>
+      <article class="find">
+        <span class="num">63.2 → 63.2</span>
+        <h3>要和“什么都不改”对比</h3>
+        <p>在没练过的新题上，自我改进后的分数和改进前一样。</p>
+        <p class="to"><b>对人：</b>先记录一段不做任何改变的时期，作为对比。</p>
+      </article>
+      <article class="find">
+        <span class="num">0.44 → 0.00</span>
+        <h3>写下规则不够，要靠机制强制</h3>
+        <p>只把要求写进记忆，出错率 0.44；改成由程序自动计算，出错率降到 0。</p>
+        <p class="to"><b>对人：</b>知道不等于做到。关键行为用环境限制、自动化或别人监督。</p>
+      </article>
+      <article class="find">
+        <span class="num">0.77 → 0.20 → 0.27</span>
+        <h3>规则不是越多越好</h3>
+        <p>记忆从 0 条加到 10 条，出错率最低；再加到 20—150 条，出错率反而回升。</p>
+        <p class="to"><b>对人：</b>同时生效的规则控制在 10 条左右。</p>
+      </article>
+      <article class="find">
+        <span class="num">+7.2 → +1.4</span>
+        <h3>提升会越来越小</h3>
+        <p>每一轮改进带来的提升逐轮减少。</p>
+        <p class="to"><b>对人：</b>到了平台期就换领域，或者学新东西。</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="diff">
+    <div class="part-head">
+      <span class="eyebrow">不能照搬的地方</span>
+      <h2>人和 agent 的主要差异</h2>
+    </div>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>方面</th><th class="c-a">Agent</th><th class="c-h">人</th><th>所以要</th></tr></thead>
+        <tbody>
+          <tr><td>对比方式</td><td>同一题可以同时跑很多次</td><td>只有一条时间线</td><td>先记录一段不改变的时期；注意“被观察就变好”的效应</td></tr>
+          <tr><td>样本量</td><td>几十到上百个任务</td><td>一个人，一轮要几周</td><td>一次只改一件事；变化要明显大于平时波动才算数</td></tr>
+          <tr><td>执行</td><td>修改写进去就生效</td><td>计划了不一定做到</td><td>分开记录“有没有做”和“做了有没有用”</td></tr>
+          <tr><td>知道与做到</td><td>写进提示也只能选已有行为</td><td>知道不等于做到</td><td>关键行为靠环境和机制，不只靠规则</td></tr>
+          <tr><td>目标</td><td>目标变了算出错</td><td>价值观变化可以是合理的</td><td>季度复盘时重审目标，改目标要写下原因</td></tr>
+          <tr><td>自我认识</td><td>自我描述会过时</td><td>自我认知偏差更大</td><td>定期用记录重写对自己的描述</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="principles">
+    <div class="part-head">
+      <span class="eyebrow">初步原则</span>
+      <h2>落到 rsi-yourself 上的八条原则</h2>
+    </div>
+    <ul class="principles">
+      <li><b>先能测量，再做改进</b><span>选定领域后，先记录一段时间。</span></li>
+      <li><b>一次一个实验</b><span>写明改什么、做多久、怎么算成功。</span></li>
+      <li><b>标准事先写下</b><span>判断时对照原始记录，由 AI 或别人参与。</span></li>
+      <li><b>看三样结果</b><span>效果、有没有做到、付出的成本。</span></li>
+      <li><b>关键行为靠机制</b><span>环境限制、自动化、别人监督，比写规则可靠。</span></li>
+      <li><b>规则库有上限</b><span>习惯养成后删掉对应规则。</span></li>
+      <li><b>只留能迁移的经验</b><span>一次性的具体做法不写进规则库。</span></li>
+      <li><b>新能力从外面学</b><span>实验负责筛选和放大。</span></li>
+    </ul>
+  </section>
+
+  <section id="todo">
+    <div class="part-head">
+      <span class="eyebrow">待决定</span>
+      <h2>开始第一个实验前要定的四件事</h2>
+    </div>
+    <div class="todo">
+      <div><b>第一个领域</b><span>建议选结果容易测量、反馈快的领域，例如作息或工作产出。</span></div>
+      <div><b>记录从哪里来</b><span>Claude Code 对话历史、飞书日历和任务、手动日志、可穿戴设备。</span></div>
+      <div><b>谁来提议和复盘</b><span>你主导、AI 辅助，或者 AI 主动提出实验并提醒执行。</span></div>
+      <div><b>谁来判断</b><span>和提议者分开的 AI，或者请别人来判。</span></div>
+    </div>
+  </section>
+
+  <footer>
+    <span class="eyebrow">资料来源</span>
+    <ul>
+      <li><code>~/personal/research/topics/rsi-evolution/</code>：专题综述和三篇论文笔记（2609.06396、2609.36892、2607.12227）</li>
+      <li><code>~/Documents/MetaRSI-方法论与核心思路.md</code></li>
+      <li><code>botlearn-course/docs/specs/self-envolving/rsi-methodology.md</code></li>
+      <li>数据采集完整文字版：<code>rsi-yourself/docs/02-data-collection.md</code></li>
+    </ul>
+  </footer>
+</div>
