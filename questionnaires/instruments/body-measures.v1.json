@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "id": "body-measures",
+  "version": "1.0.0",
+  "language": "zh-CN",
+  "title": "C · 身体测量",
+  "kind": "project_defined",
+  "status": "provisional",
+  "provenance": {
+    "imported_from": "tools/intake/index.html",
+    "imported_on": "2026-10-30",
+    "note": "提取通用 SCHEMA 定义，未读取实例或回答。"
+  },
+  "sources": [],
+  "review_pending": [
+    "题目与说明适用性"
+  ],
+  "limitations": [
+    "本库不包含个人回答、个人预填值或个人报告。",
+    "测量说明继承项目现状，具体测量部位与流程的指南依据待核验。"
+  ],
+  "scoring": {
+    "method": "none",
+    "interpretation": "仅记录，不生成综合评分。"
+  },
+  "form": {
+    "id": "C",
+    "title": "C · 身体测量",
+    "desc": "早上起床、上完厕所、吃早饭前测量。今天测不了可以先跳过，之后补。",
+    "fields": [
+      {
+        "key": "weight_kg",
+        "label": "体重",
+        "type": "number",
+        "unit": "kg",
+        "step": "0.1",
+        "req": true
+      },
+      {
+        "key": "waist_cm",
+        "label": "腰围",
+        "type": "number",
+        "unit": "cm（肚脐水平，自然呼气后）",
+        "step": "0.5",
+        "opt": true
+      },
+      {
+        "key": "bp",
+        "label": "血压",
+        "type": "bp",
+        "hint": "有血压计时填写。连续 3 天早上坐着静息 5 分钟后测。",
+        "opt": true
+      },
+      {
+        "key": "measure_date",
+        "label": "测量日期",
+        "type": "date",
+        "req": true
+      }
+    ]
+  }
+}

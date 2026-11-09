@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "id": "goals-boundaries",
+  "version": "1.0.0",
+  "language": "zh-CN",
+  "title": "E · 目标与边界",
+  "kind": "project_defined",
+  "status": "provisional",
+  "provenance": {
+    "imported_from": "tools/intake/index.html",
+    "imported_on": "2026-10-30",
+    "note": "提取通用 SCHEMA 定义，未读取实例或回答。"
+  },
+  "sources": [],
+  "review_pending": [
+    "题目与说明适用性"
+  ],
+  "limitations": [
+    "本库不包含个人回答、个人预填值或个人报告。"
+  ],
+  "scoring": {
+    "method": "none",
+    "interpretation": "仅记录，不生成综合评分。"
+  },
+  "form": {
+    "id": "E",
+    "title": "E · 目标与边界",
+    "desc": "这一部分决定第一周期用什么标准判断成败，是整份档案里最重要的。",
+    "fields": [
+      {
+        "key": "goals",
+        "label": "最想改进的方向",
+        "hint": "按重要程度依次点选，最多 3 个。再点一次取消。",
+        "type": "rank",
+        "max": 3,
+        "req": true,
+        "options": [
+          "白天精力",
+          "睡眠",
+          "体能和心肺",
+          "工作产出质量（少返工）",
+          "专注（少切换）",
+          "情绪和压力",
+          "体重和体型",
+          "工作与生活的边界"
+        ]
+      },
+      {
+        "key": "goals_other",
+        "label": "其他方向",
+        "type": "text",
+        "opt": true
+      },
+      {
+        "key": "why_now",
+        "label": "为什么是现在",
+        "hint": "最近发生了什么让你想做这件事？一两句即可。",
+        "type": "textarea",
+        "opt": true
+      },
+      {
+        "key": "no_sacrifice",
+        "label": "不能牺牲的东西",
+        "hint": "改变的过程中，哪些东西不能变差？例如：产出速度、某段家庭时间。",
+        "type": "textarea",
+        "req": true
+      },
+      {
+        "key": "weekly_hours",
+        "label": "每周能拿出多少时间做改变",
+        "type": "radio",
+        "options": [
+          "少于 1 小时",
+          "1–2 小时",
+          "2–4 小时",
+          "4 小时以上"
+        ],
+        "req": true
+      },
+      {
+        "key": "exercise_history",
+        "label": "运动经历",
+        "type": "info"
+      },
+      {
+        "key": "exercise_stop",
+        "label": "运动为什么停了",
+        "type": "multi",
+        "options": [
+          "工作太忙",
+          "通勤或住处变化",
+          "天气或季节",
+          "伤病",
+          "没有同伴",
+          "没兴趣了",
+          "晚上太累",
+          "其他"
+        ],
+        "req": true
+      },
+      {
+        "key": "exercise_willing",
+        "label": "现在愿意做的运动",
+        "type": "multi",
+        "options": [
+          "骑行",
+          "跑步",
+          "快走",
+          "健身房力量",
+          "椭圆机/划船机",
+          "游泳",
+          "球类",
+          "跳绳/HIIT",
+          "瑜伽/拉伸"
+        ],
+        "req": true
+      },
+      {
+        "key": "exercise_slot",
+        "label": "可以运动的时段",
+        "type": "multi",
+        "options": [
+          "上班前",
+          "午休",
+          "下班后到 21:00",
+          "21:00 以后",
+          "周末"
+        ],
+        "req": true
+      },
+      {
+        "key": "privacy",
+        "label": "隐私边界",
+        "hint": "哪些数据不采集，哪些只在本地保存",
+        "type": "textarea",
+        "opt": true
+      },
+      {
+        "key": "notes",
+        "label": "还有什么想补充的",
+        "type": "textarea",
+        "opt": true
+      }
+    ]
+  }
+}

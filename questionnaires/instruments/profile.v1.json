@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "id": "profile",
+  "version": "1.0.0",
+  "language": "zh-CN",
+  "title": "A · 基本信息",
+  "kind": "project_defined",
+  "status": "provisional",
+  "provenance": {
+    "imported_from": "tools/intake/index.html",
+    "imported_on": "2026-10-30",
+    "note": "提取通用 SCHEMA 定义，未读取实例或回答。"
+  },
+  "sources": [],
+  "review_pending": [
+    "题目与说明适用性"
+  ],
+  "limitations": [
+    "本库不包含个人回答、个人预填值或个人报告。"
+  ],
+  "scoring": {
+    "method": "none",
+    "interpretation": "仅记录，不生成综合评分。"
+  },
+  "form": {
+    "id": "A",
+    "title": "A · 基本信息",
+    "desc": "用来解读身体指标，以及了解哪些时间是固定占用的。",
+    "fields": [
+      {
+        "key": "birth_month",
+        "label": "出生年月",
+        "type": "month",
+        "req": true
+      },
+      {
+        "key": "sex",
+        "label": "性别",
+        "type": "radio",
+        "options": [
+          "男",
+          "女",
+          "其他"
+        ],
+        "req": true
+      },
+      {
+        "key": "height_cm",
+        "label": "身高",
+        "type": "number",
+        "unit": "cm",
+        "req": true
+      },
+      {
+        "key": "role",
+        "label": "职业和角色",
+        "type": "text",
+        "placeholder": "例如：技术负责人，带 5 人团队",
+        "req": true
+      },
+      {
+        "key": "work_constraints",
+        "label": "固定的工作安排",
+        "type": "textarea",
+        "hint": "固定会议、值班、需要在线的时段",
+        "req": true
+      },
+      {
+        "key": "commute_mode",
+        "label": "通勤方式",
+        "type": "radio",
+        "options": [
+          "在家办公",
+          "步行",
+          "骑行",
+          "公共交通",
+          "开车",
+          "混合"
+        ],
+        "req": true
+      },
+      {
+        "key": "commute_min",
+        "label": "单程通勤时间",
+        "type": "number",
+        "unit": "分钟",
+        "opt": true
+      },
+      {
+        "key": "life_constraints",
+        "label": "生活上的约束",
+        "type": "textarea",
+        "hint": "家庭、照护责任、固定的个人安排等",
+        "opt": true
+      }
+    ]
+  }
+}

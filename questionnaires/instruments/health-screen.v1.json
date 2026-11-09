@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "id": "health-screen",
+  "version": "1.0.0",
+  "language": "zh-CN",
+  "title": "B · 健康筛查",
+  "kind": "adapted_or_translation_unverified",
+  "status": "provisional",
+  "provenance": {
+    "imported_from": "tools/intake/index.html",
+    "imported_on": "2026-10-30",
+    "note": "提取通用 SCHEMA 定义，未读取实例或回答。"
+  },
+  "sources": [
+    {
+      "title": "PAR-Q+ 官方版本及后续筛查",
+      "url": "https://eparmedx.com/print-versions-of-par-q/"
+    }
+  ],
+  "review_pending": [
+    "中文版本与适用人群",
+    "授权及再分发条件"
+  ],
+  "limitations": [
+    "本库不包含个人回答、个人预填值或个人报告。",
+    "中文译本出处、逐项等同性、目标人群适用性及使用授权尚未核验；不得称为已验证的标准中文版。",
+    "当前保存的是项目已有题目版本；引用研究不表示本实现已通过验证。",
+    "PAR-Q+ 第一部分改编及项目补充题，不是完整官方筛查流程。",
+    "ACSM 补充题的具体版本和逐题来源待补；不得仅凭本模块给出运动许可。"
+  ],
+  "scoring": {
+    "method": "none",
+    "interpretation": "仅记录，不生成综合评分。"
+  },
+  "form": {
+    "id": "B",
+    "title": "B · 健康筛查",
+    "desc": "运动实验开始前必须完成。改编自 PAR-Q+ 第一部分。任何一题答“是”，先咨询医生，再开始运动实验。",
+    "fields": [
+      {
+        "key": "parq",
+        "label": "请逐题回答",
+        "type": "scale",
+        "options": [
+          "是",
+          "否"
+        ],
+        "values": [
+          1,
+          0
+        ],
+        "req": true,
+        "items": [
+          "医生是否说过你有心脏问题或高血压？",
+          "休息、日常活动或运动时，是否出现过胸痛或胸闷？",
+          "过去 12 个月内，是否因头晕失去平衡，或失去过意识？",
+          "是否被诊断过其他慢性病（心脏病和高血压以外），例如糖尿病、哮喘、甲状腺疾病？",
+          "目前是否在服用治疗慢性病的处方药？",
+          "是否有骨骼、关节或软组织问题（肌肉、韧带、肌腱），会因运动加重？",
+          "医生是否说过你只能在医疗监督下运动？"
+        ]
+      },
+      {
+        "key": "symptoms",
+        "label": "最近一年是否出现过以下症状",
+        "hint": "PAR-Q+ 没有单独问这些。出现任何一项，开始中等强度运动前也要先问医生（ACSM 运动前筛查）。",
+        "type": "multi",
+        "options": [
+          "都没有",
+          "心悸或心跳过快",
+          "不明原因的气短",
+          "脚踝水肿",
+          "走路时小腿疼痛，休息后缓解"
+        ],
+        "req": true
+      },
+      {
+        "key": "checkup_date",
+        "label": "最近一次体检",
+        "type": "month",
+        "hint": "大概的年月即可",
+        "opt": true
+      },
+      {
+        "key": "checkup_abnormal",
+        "label": "体检异常项",
+        "type": "multi",
+        "options": [
+          "无异常",
+          "血压",
+          "血脂",
+          "血糖",
+          "尿酸",
+          "肝功能",
+          "甲状腺",
+          "体重/BMI",
+          "其他",
+          "没做过体检"
+        ],
+        "req": true
+      },
+      {
+        "key": "checkup_note",
+        "label": "异常项说明",
+        "type": "text",
+        "placeholder": "例如：尿酸 480，医生建议复查",
+        "opt": true
+      },
+      {
+        "key": "smoking",
+        "label": "吸烟",
+        "type": "radio",
+        "options": [
+          "不吸",
+          "偶尔",
+          "每天"
+        ],
+        "req": true
+      },
+      {
+        "key": "alcohol",
+        "label": "饮酒",
+        "type": "radio",
+        "options": [
+          "不喝",
+          "每月少于 1 次",
+          "每周 1–2 次",
+          "每周 3 次以上"
+        ],
+        "req": true
+      },
+      {
+        "key": "caffeine_cups",
+        "label": "咖啡因：每天几杯",
+        "type": "number",
+        "unit": "杯（咖啡、浓茶、功能饮料）",
+        "req": true
+      },
+      {
+        "key": "caffeine_last",
+        "label": "咖啡因：最后一杯通常几点",
+        "type": "time",
+        "hint": "下午晚些时候的咖啡因会推迟入睡",
+        "opt": true
+      }
+    ]
+  }
+}

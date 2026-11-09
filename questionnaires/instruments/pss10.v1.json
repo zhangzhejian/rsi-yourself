@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "id": "pss10",
+  "version": "1.0.0",
+  "language": "zh-CN",
+  "title": "主观压力（PSS-10）",
+  "kind": "adapted_or_translation_unverified",
+  "status": "provisional",
+  "provenance": {
+    "imported_from": "tools/intake/index.html",
+    "imported_on": "2026-10-30",
+    "note": "提取通用 SCHEMA 定义，未读取实例或回答。"
+  },
+  "sources": [
+    {
+      "title": "Cohen 团队量表说明：PSS 无诊断分界值",
+      "url": "https://www.cmu.edu/dietrich/psychology/stress-immunity-disease-lab/scales/index.html"
+    }
+  ],
+  "review_pending": [
+    "中文版本与适用人群",
+    "授权及再分发条件"
+  ],
+  "limitations": [
+    "本库不包含个人回答、个人预填值或个人报告。",
+    "中文译本出处、逐项等同性、目标人群适用性及使用授权尚未核验；不得称为已验证的标准中文版。",
+    "当前保存的是项目已有题目版本；引用研究不表示本实现已通过验证。",
+    "不沿用原表单 0–13 / 14–26 / 27–40 的低中高压力分档；开发团队没有给出该分界值。"
+  ],
+  "scoring": {
+    "method": "sum_option_indices",
+    "option_index_base": 0,
+    "reverse_item_indices": [
+      3,
+      4,
+      6,
+      7
+    ],
+    "reverse_formula": "4 - option_index",
+    "range": [
+      0,
+      40
+    ],
+    "missing": "任一题缺答时不计算总分，不将缺答计为零。",
+    "interpretation": "仅报告总分；不自动诊断或分档。"
+  },
+  "form": {
+    "title": "主观压力（PSS-10）",
+    "desc": "回想最近一个月，以下情况出现的频率",
+    "fields": [
+      {
+        "key": "pss",
+        "label": "主观压力（PSS-10）",
+        "hint": "回想最近一个月，以下情况出现的频率",
+        "type": "scale",
+        "options": [
+          "从不",
+          "几乎不",
+          "有时",
+          "相当频繁",
+          "非常频繁"
+        ],
+        "req": true,
+        "score": "pss",
+        "reverse": [
+          3,
+          4,
+          6,
+          7
+        ],
+        "items": [
+          "因为发生了意料之外的事而心烦意乱",
+          "感到无法控制生活中重要的事情",
+          "感到紧张和有压力",
+          "对自己处理个人问题的能力有信心",
+          "感到事情在按自己的意愿发展",
+          "发现自己应付不了所有必须做的事",
+          "能够控制生活中让人烦躁的事",
+          "觉得一切尽在掌握",
+          "因为无法控制的事情而生气",
+          "感到困难堆积如山，无法克服"
+        ]
+      }
+    ]
+  }
+}
